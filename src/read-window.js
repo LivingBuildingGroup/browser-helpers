@@ -4,7 +4,7 @@ const { isObjectLiteral } = require('conjunction-junction');
 
 const getIdFromPathname = (integer = true) => {
   const pathname = typeof window !== 'undefined' && window.location && typeof window.location.pathname === 'string' ?
-  window.location.pathname : '' ;
+    window.location.pathname : '' ;
   const arr = pathname.split('/');
   const _id = arr[arr.length-1];
   const id = integer ? parseInt(_id,10) : _id ;
@@ -13,7 +13,7 @@ const getIdFromPathname = (integer = true) => {
 
 const getPageName = () => {
   const pathname = typeof window !== 'undefined' && window.location && typeof window.location.pathname === 'string' ?
-  window.location.pathname : '' ;
+    window.location.pathname : '' ;
   const arr = pathname.split('/');
   const page = arr[1];
   return page;
