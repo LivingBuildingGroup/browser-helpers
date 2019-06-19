@@ -1,6 +1,7 @@
 'use strict';
 
-const { isPrimitiveNumber,
+const { 
+  isPrimitiveNumber,
   isObjectLiteral,
   precisionRound } = require('conjunction-junction');
 
