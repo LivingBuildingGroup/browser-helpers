@@ -26,19 +26,19 @@ const calcScreenType = (w,h) =>{
   const desktopL_minH =   800;
   const heightRanges = [];
   const widthRanges  = [];
-
+  
   if(h >= phoneP_minH  && h <= phoneP_maxH  && h >= w ) heightRanges.push('phoneP' );
   if(h >= phoneL_minH  && h <= phoneL_maxH  && w >= h ) heightRanges.push('phoneL' );
   if(h >= tabletL_minH && h <= tabletL_maxH && w >= h ) heightRanges.push('tabletL');
   if(h >= tabletP_minH && h <= tabletP_maxH && h >= w ) heightRanges.push('tabletP');
   if(h >= desktopL_minH                     && w >= h ) heightRanges.push('desktop');
-  
+    
   if(w >= phoneP_minW  && w <= phoneP_maxW  && h >= w ) widthRanges.push('phoneP' );
   if(w >= phoneL_minW  && w <= phoneL_maxW  && w >= h ) widthRanges.push('phoneL' );
   if(w >= tabletL_minW && w <= tabletL_maxW && w >= h ) widthRanges.push('tabletL');
   if(w >= tabletP_minW && w <= tabletP_maxW && h >= w ) widthRanges.push('tabletP');
   if(w >= desktopL_minW                     && w >= h ) widthRanges.push('desktop');
-  
+    
   // types are in descending order of optimization. I.e. desktop is most optimized, so use it if we can.
   const types = ['phoneP','phoneL','tabletP','tabletL','desktop'];
   let type = 'phoneP'; // default
@@ -55,36 +55,36 @@ const calcScreenType = (w,h) =>{
     },
   };
 };
-
+  
 const calcMinimumWindowDimensions = win => {
   const availWidth = 
-  !win.screen ?
-    win.innerWidth :
-    !win.screen.availWidth ?
-      win.innerWidth:
-      win.screen.availWidth;
-  const availHeight = 
     !win.screen ?
-      win.innerHeight :
-      !isPrimitiveNumber(win.screen.availHeight) ?
-        win.innerHeight:
-        win.screen.availHeight;
-
+      win.innerWidth :
+      !win.screen.availWidth ?
+        win.innerWidth:
+        win.screen.availWidth;
+  const availHeight = 
+      !win.screen ?
+        win.innerHeight :
+        !isPrimitiveNumber(win.screen.availHeight) ?
+          win.innerHeight:
+          win.screen.availHeight;
+  
   const widthLowestCommon =
-    !isPrimitiveNumber(win.innerWidth) ?
-      availWidth :
-      Math.min(win.innerWidth, availWidth);
+      !isPrimitiveNumber(win.innerWidth) ?
+        availWidth :
+        Math.min(win.innerWidth, availWidth);
   const heightLowestCommon =
-    !isPrimitiveNumber(win.innerHeight) ?
-      availHeight :
-      Math.min(win.innerHeight, availHeight);
-
+      !isPrimitiveNumber(win.innerHeight) ?
+        availHeight :
+        Math.min(win.innerHeight, availHeight);
+  
   return {
     cssWidthOuter: widthLowestCommon,
     cssHeightOuter: heightLowestCommon,
   };
 };
-
+  
 const calcProportionalDimensions = input => {
   const defaultReturn = {
     w: 100,
@@ -96,10 +96,10 @@ const calcProportionalDimensions = input => {
     height,
     cssWidthOuter,
     cssHeightOuter } = input;
-
+  
   const widthOuter  = isPrimitiveNumber(cssWidthOuter)  ? cssWidthOuter : 100 ;
   const heightOuter = isPrimitiveNumber(cssHeightOuter) ? cssHeightOuter : 100 ;
-
+  
   const w = isObjectLiteral(width) ? width : {} ;
   w.bigEnoughScreen   = isPrimitiveNumber(w.bigEnoughScreen)   ? w.bigEnoughScreen   : 1000 ;
   w.percentOfScreen   = isPrimitiveNumber(w.percentOfScreen)   ? w.percentOfScreen   : 1 ;
@@ -108,21 +108,21 @@ const calcProportionalDimensions = input => {
   h.bigEnoughScreen   = isPrimitiveNumber(h.bigEnoughScreen)   ? h.bigEnoughScreen   : 1000 ;
   h.percentOfScreen   = isPrimitiveNumber(h.percentOfScreen)   ? h.percentOfScreen   : 1 ;
   h.maxPctOfBigEnough = isPrimitiveNumber(h.maxPctOfBigEnough) ? h.maxPctOfBigEnough : 1 ;
-
+  
   const widthRatioDelta  = w.maxPctOfBigEnough - w.percentOfScreen;
   const widthBelowMin    = w.bigEnoughScreen - widthOuter;
-
+  
   const heightRatioDelta = h.maxPctOfBigEnough - h.percentOfScreen;
   const heightBelowMin   = h.bigEnoughScreen - heightOuter;
-    
+      
   const w_  = 
-    widthOuter >= w.bigEnoughScreen ? 
-      w.percentOfScreen * widthOuter :
-      widthOuter + (widthBelowMin * widthRatioDelta) ;
+      widthOuter >= w.bigEnoughScreen ? 
+        w.percentOfScreen * widthOuter :
+        widthOuter + (widthBelowMin * widthRatioDelta) ;
   const h_ = 
-    heightOuter >= h.bigEnoughScreen ? 
-      h.percentOfScreen * heightOuter :
-      heightOuter + (heightBelowMin * heightRatioDelta) ;
+      heightOuter >= h.bigEnoughScreen ? 
+        h.percentOfScreen * heightOuter :
+        heightOuter + (heightBelowMin * heightRatioDelta) ;
   const final = {
     testKeys: {
       widthRatioDelta,
@@ -138,7 +138,7 @@ const calcProportionalDimensions = input => {
   }
   return final;
 };
-
+  
 const calcDimensions = state => {
   const {
     cssWidthOuter,
@@ -148,7 +148,7 @@ const calcDimensions = state => {
     cssHeightSelectors,
   } = state;
   const extraHeightForFooter = 150;
-
+  
   const cssDivOuter = { // NOT USING, JUST LET IT FLOW
     width: cssWidthOuter,
     height: cssHeightOuter + extraHeightForFooter,
@@ -175,7 +175,7 @@ const calcDimensions = state => {
   };
   const cssCanvasWidth  = cssDivGraph.width;
   const cssCanvasHeight = cssDivGraph.height;
-
+  
   return {
     cssDivOuter,
     cssDivInner,
