@@ -56,7 +56,9 @@ var calcScreenType = function calcScreenType(w, h) {
   };
 };
 
-var calcMinimumWindowDimensions = function calcMinimumWindowDimensions(win) {
+var calcMinimumWindowDimensions = function calcMinimumWindowDimensions() {
+  var win = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
   var availWidth = !win.screen ? win.innerWidth : !win.screen.availWidth ? win.innerWidth : win.screen.availWidth;
   var availHeight = !win.screen ? win.innerHeight : !isPrimitiveNumber(win.screen.availHeight) ? win.innerHeight : win.screen.availHeight;
 

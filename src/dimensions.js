@@ -56,7 +56,7 @@ const calcScreenType = (w,h) =>{
   };
 };
   
-const calcMinimumWindowDimensions = win => {
+const calcMinimumWindowDimensions = (win = {}) => {
   const availWidth = 
     !win.screen ?
       win.innerWidth :
