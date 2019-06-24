@@ -1,6 +1,6 @@
 {
   "name": "browser-helpers",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Helper library browsers",
   "main": "index.js",
   "author": "Brad C. Garner <brad@bradgarner.com> (http://bradgarner.com)",
