@@ -23,7 +23,7 @@ const calcScreenType = (w,h) =>{
   const tabletL_minH  =   650;
   const tabletL_maxH  =  1100;
   const desktopL_minW =  1100;
-  const desktopL_minH =   800;
+  const desktopL_minH =   700;
   const heightRanges = [];
   const widthRanges  = [];
   

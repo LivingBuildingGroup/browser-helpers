@@ -23,7 +23,7 @@ var calcScreenType = function calcScreenType(w, h) {
   var tabletL_minH = 650;
   var tabletL_maxH = 1100;
   var desktopL_minW = 1100;
-  var desktopL_minH = 800;
+  var desktopL_minH = 700;
   var heightRanges = [];
   var widthRanges = [];
 
