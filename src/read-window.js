@@ -44,9 +44,26 @@ const buildQueryString = options => {
   return query;
 };
 
+const getQueryString = () => {
+  // read global window object
+  // return a query string as-is (without ?) if exists
+  // if does not exist, return empty string
+  if(typeof window === 'undefined'){
+    return '';
+  }
+  const queryString = 
+    window.location && 
+    typeof window.location.search === 'string' && 
+    window.location.search.length > 1 ?
+      window.location.search.slice(1,window.location.search.length) :
+      '';
+  return queryString;
+};
+
 module.exports = {
   getIdFromPathname,
   getPageName,
   getWindowSearchArr,
   buildQueryString,
+  getQueryString,
 };

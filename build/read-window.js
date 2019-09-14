@@ -44,9 +44,21 @@ var buildQueryString = function buildQueryString(options) {
   return query;
 };
 
+var getQueryString = function getQueryString() {
+  // read global window object
+  // return a query string as-is (without ?) if exists
+  // if does not exist, return empty string
+  if (typeof window === 'undefined') {
+    return '';
+  }
+  var queryString = window.location && typeof window.location.search === 'string' && window.location.search.length > 1 ? window.location.search.slice(1, window.location.search.length) : '';
+  return queryString;
+};
+
 module.exports = {
   getIdFromPathname: getIdFromPathname,
   getPageName: getPageName,
   getWindowSearchArr: getWindowSearchArr,
-  buildQueryString: buildQueryString
+  buildQueryString: buildQueryString,
+  getQueryString: getQueryString
 };
