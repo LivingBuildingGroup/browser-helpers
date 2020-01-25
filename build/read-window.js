@@ -3,6 +3,8 @@
 var _require = require('conjunction-junction'),
     isObjectLiteral = _require.isObjectLiteral;
 
+var queryString = require('query-string');
+
 var getIdFromPathname = function getIdFromPathname() {
   var integer = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
 
@@ -55,10 +57,28 @@ var getQueryString = function getQueryString() {
   return queryString;
 };
 
+var cleanUri = function cleanUri() {
+  var uri = typeof window !== 'undefined' && window.location && typeof window.location.toString === 'function' ? window.location.toString() : '';
+  if (uri.indexOf("?") > 0) {
+    var clean_uri = uri.substring(0, uri.indexOf("?"));
+    window.history.replaceState({}, document.title, clean_uri);
+  }
+};
+
+var parseQueryString = function parseQueryString() {
+  var win = typeof window !== 'undefined' ? window : {};
+  var loc = win.location || {};
+  var search = loc.search;
+  var parsed = queryString.parse(search);
+  return parsed;
+};
+
 module.exports = {
   getIdFromPathname: getIdFromPathname,
   getPageName: getPageName,
   getWindowSearchArr: getWindowSearchArr,
   buildQueryString: buildQueryString,
-  getQueryString: getQueryString
+  getQueryString: getQueryString,
+  cleanUri: cleanUri,
+  parseQueryString: parseQueryString
 };

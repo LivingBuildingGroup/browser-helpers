@@ -1,6 +1,7 @@
 'use strict';
 
 const { isObjectLiteral } = require('conjunction-junction');
+const queryString         = require('query-string');
 
 const getIdFromPathname = (integer = true) => {
   const pathname = typeof window !== 'undefined' && window.location && typeof window.location.pathname === 'string' ?
@@ -60,10 +61,30 @@ const getQueryString = () => {
   return queryString;
 };
 
+const cleanUri = () => {
+  const uri = typeof window !== 'undefined' && 
+    window.location && typeof window.location.toString === 'function' ?
+    window.location.toString() : '';
+  if (uri.indexOf("?") > 0) {
+    const clean_uri = uri.substring(0, uri.indexOf("?"));
+    window.history.replaceState({}, document.title, clean_uri);
+  }
+};
+
+const parseQueryString = () => {
+  const win = typeof window !== 'undefined' ? window : {} ;
+  const loc = win.location || {} ;
+  const search = loc.search;
+  const parsed = queryString.parse(search);
+  return parsed;
+};
+
 module.exports = {
   getIdFromPathname,
   getPageName,
   getWindowSearchArr,
   buildQueryString,
   getQueryString,
+  cleanUri,
+  parseQueryString,
 };
