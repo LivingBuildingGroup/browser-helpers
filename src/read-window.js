@@ -3,7 +3,7 @@
 const { isObjectLiteral } = require('conjunction-junction');
 const queryString         = require('query-string');
 
-const getIdFromPathname = (integer = true) => {
+const getIdFromPathname = (integer=true) => {
   const pathname = typeof window !== 'undefined' && window.location && typeof window.location.pathname === 'string' ?
     window.location.pathname : '' ;
   const arr = pathname.split('/');

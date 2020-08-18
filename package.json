@@ -23,15 +23,17 @@
   "bugs": {
     "url": "https://github.com/bradcgarner/browser-helpers/issues"
   },
-  "dependencies": {
-    "conjunction-junction": "^3.13.41",
+  "peerDependencies": {
+    "conjunction-junction": "^3.13.53",
     "query-string": "^6.10.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "chai": "^4.1.2",
+    "conjunction-junction": "^3.13.53",
     "mocha": "^6.2.2",
-    "nyc": "^14.1.1"
+    "nyc": "^14.1.1",
+    "query-string": "^6.10.1"
   }
 }
