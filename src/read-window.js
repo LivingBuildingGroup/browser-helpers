@@ -65,9 +65,10 @@ const cleanUri = () => {
   const uri = typeof window !== 'undefined' && 
     window.location && typeof window.location.toString === 'function' ?
     window.location.toString() : '';
-  if (uri.indexOf("?") > 0) {
-    const clean_uri = uri.substring(0, uri.indexOf("?"));
-    window.history.replaceState({}, document.title, clean_uri);
+  const qIndex = uri.indexOf('?');
+  if (qIndex > 0) {
+    const cleanUri = uri.substring(0, qIndex);
+    window.history.replaceState({}, document.title, cleanUri);
   }
 };
 
@@ -76,7 +77,11 @@ const parseQueryString = () => {
   const loc = win.location || {} ;
   const search = loc.search;
   const parsed = queryString.parse(search);
-  return parsed;
+  const parsedAsObject = {}; // without this extra step, parsed is not an instanceof Object and thus fails isObjectLiteral()
+  for(let k in parsed){
+    parsedAsObject[k] = parsed[k];
+  }
+  return parsedAsObject;
 };
 
 module.exports = {

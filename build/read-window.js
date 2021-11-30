@@ -59,9 +59,10 @@ var getQueryString = function getQueryString() {
 
 var cleanUri = function cleanUri() {
   var uri = typeof window !== 'undefined' && window.location && typeof window.location.toString === 'function' ? window.location.toString() : '';
-  if (uri.indexOf("?") > 0) {
-    var clean_uri = uri.substring(0, uri.indexOf("?"));
-    window.history.replaceState({}, document.title, clean_uri);
+  var qIndex = uri.indexOf('?');
+  if (qIndex > 0) {
+    var _cleanUri = uri.substring(0, qIndex);
+    window.history.replaceState({}, document.title, _cleanUri);
   }
 };
 
@@ -70,7 +71,11 @@ var parseQueryString = function parseQueryString() {
   var loc = win.location || {};
   var search = loc.search;
   var parsed = queryString.parse(search);
-  return parsed;
+  var parsedAsObject = {}; // without this extra step, parsed is not an instanceof Object and thus fails isObjectLiteral()
+  for (var k in parsed) {
+    parsedAsObject[k] = parsed[k];
+  }
+  return parsedAsObject;
 };
 
 module.exports = {
