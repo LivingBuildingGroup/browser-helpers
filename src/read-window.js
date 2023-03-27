@@ -1,7 +1,6 @@
 'use strict';
 
 const { isObjectLiteral } = require('conjunction-junction');
-const queryString         = require('query-string');
 
 const getIdFromPathname = (integer=true) => {
   const pathname = typeof window !== 'undefined' && window.location && typeof window.location.pathname === 'string' ?
@@ -76,7 +75,7 @@ const parseQueryString = () => {
   const win = typeof window !== 'undefined' ? window : {} ;
   const loc = win.location || {} ;
   const search = loc.search;
-  const parsed = queryString.parse(search);
+  const parsed = new URLSearchParams(search);
   const parsedAsObject = {}; // without this extra step, parsed is not an instanceof Object and thus fails isObjectLiteral()
   for(let k in parsed){
     parsedAsObject[k] = parsed[k];
