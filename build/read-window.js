@@ -3,8 +3,6 @@
 var _require = require('conjunction-junction'),
     isObjectLiteral = _require.isObjectLiteral;
 
-var queryString = require('query-string');
-
 var getIdFromPathname = function getIdFromPathname() {
   var integer = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
 
@@ -70,7 +68,7 @@ var parseQueryString = function parseQueryString() {
   var win = typeof window !== 'undefined' ? window : {};
   var loc = win.location || {};
   var search = loc.search;
-  var parsed = queryString.parse(search);
+  var parsed = new URLSearchParams(search);
   var parsedAsObject = {}; // without this extra step, parsed is not an instanceof Object and thus fails isObjectLiteral()
   for (var k in parsed) {
     parsedAsObject[k] = parsed[k];
