@@ -24,8 +24,7 @@
     "url": "https://github.com/bradcgarner/browser-helpers/issues"
   },
   "peerDependencies": {
-    "conjunction-junction": "^3.14.66",
-    "query-string": "^7.1.1"
+    "conjunction-junction": "^3.14.81"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

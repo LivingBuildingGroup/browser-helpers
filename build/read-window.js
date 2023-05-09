@@ -3,8 +3,6 @@
 var _require = require('conjunction-junction'),
     isObjectLiteral = _require.isObjectLiteral;
 
-var queryString = require('query-string');
-
 var getIdFromPathname = function getIdFromPathname() {
   var integer = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
 
@@ -67,15 +65,58 @@ var cleanUri = function cleanUri() {
 };
 
 var parseQueryString = function parseQueryString() {
+  var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
   var win = typeof window !== 'undefined' ? window : {};
   var loc = win.location || {};
-  var search = loc.search;
-  var parsed = queryString.parse(search);
-  var parsedAsObject = {}; // without this extra step, parsed is not an instanceof Object and thus fails isObjectLiteral()
-  for (var k in parsed) {
-    parsedAsObject[k] = parsed[k];
+  var query = loc.search;
+
+  var formatNums = !!options.formatNums;
+  var formatBools = !!options.formatBools;
+
+  var returnValue = {};
+
+  if (typeof query !== 'string') {
+    return returnValue;
   }
-  return parsedAsObject;
+
+  var trimmed = query.trim().replace(/^[?#&]/, '');
+
+  if (!trimmed) {
+    return returnValue;
+  }
+
+  var arr = trimmed.split('&');
+
+  arr.forEach(function (x) {
+    var subArr = x.split('=').map(function (y) {
+      return y.trim();
+    });
+    if (subArr.length == 1) {
+      returnValue[subArr[0]] = 'true';
+    } else {
+      returnValue[subArr[0]] = subArr[1];
+    }
+  });
+
+  if (formatNums || formatBools) {
+    for (var k in returnValue) {
+      var isTrue = returnValue[k].toLowerCase() === 'true';
+      var isFalse = returnValue[k].toLowerCase() === 'false';
+      var asNum = parseFloat(returnValue[k]);
+      var isNum = '' + asNum === returnValue[k];
+
+      if (formatBools && isTrue) {
+        returnValue[k] = true;
+      } else if (formatBools && isFalse) {
+        returnValue[k] = false;
+      } else if (formatNums && isNum) {
+        returnValue[k] = asNum;
+      }
+    }
+  }
+
+  return returnValue;
 };
 
 module.exports = {

@@ -1,7 +1,6 @@
 'use strict';
 
 const { isObjectLiteral } = require('conjunction-junction');
-const queryString         = require('query-string');
 
 const getIdFromPathname = (integer=true) => {
   const pathname = typeof window !== 'undefined' && window.location && typeof window.location.pathname === 'string' ?
@@ -20,7 +19,7 @@ const getPageName = () => {
   return page;
 };
 
-const getWindowSearchArr = (int) => {
+const getWindowSearchArr = int => {
   if(window && window.location && typeof window.location.search === 'string'){
     const search = window.location.search;
     const split = search.split('?');
@@ -72,16 +71,55 @@ const cleanUri = () => {
   }
 };
 
-const parseQueryString = () => {
+const parseQueryString = (options={}) => {
   const win = typeof window !== 'undefined' ? window : {} ;
   const loc = win.location || {} ;
-  const search = loc.search;
-  const parsed = queryString.parse(search);
-  const parsedAsObject = {}; // without this extra step, parsed is not an instanceof Object and thus fails isObjectLiteral()
-  for(let k in parsed){
-    parsedAsObject[k] = parsed[k];
+  const query = loc.search;
+
+  const formatNums = !!options.formatNums;
+  const formatBools = !!options.formatBools;
+
+  const returnValue = {};
+
+  if (typeof query !== 'string') {
+		return returnValue;
+	}
+
+	const trimmed = query.trim().replace(/^[?#&]/, '');
+
+	if (!trimmed) {
+		return returnValue;
+	}
+
+  const arr = trimmed.split('&');
+
+  arr.forEach(x=>{
+    const subArr = x.split('=').map(y=>y.trim());
+    if(subArr.length == 1){
+      returnValue[subArr[0]] = 'true';
+    } else {
+      returnValue[subArr[0]] = subArr[1];
+    }
+  });
+
+  if(formatNums || formatBools){
+    for(let k in returnValue){
+      const isTrue = returnValue[k].toLowerCase() === 'true';
+      const isFalse = returnValue[k].toLowerCase() === 'false';
+      const asNum = parseFloat(returnValue[k])
+      const isNum = `${asNum}` === returnValue[k];
+
+      if(formatBools && isTrue){
+        returnValue[k] = true;
+      } else if(formatBools && isFalse){
+        returnValue[k] = false;
+      } else if(formatNums && isNum){
+        returnValue[k] = asNum;
+      }
+    }
   }
-  return parsedAsObject;
+
+  return returnValue;
 };
 
 module.exports = {
